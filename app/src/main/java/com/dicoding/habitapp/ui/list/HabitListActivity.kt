@@ -19,6 +19,7 @@ import com.dicoding.habitapp.setting.SettingsActivity
 import com.dicoding.habitapp.ui.ViewModelFactory
 import com.dicoding.habitapp.ui.add.AddHabitActivity
 import com.dicoding.habitapp.ui.detail.DetailHabitActivity
+import com.dicoding.habitapp.ui.random.RandomHabitActivity
 import com.dicoding.habitapp.utils.Event
 import com.dicoding.habitapp.utils.HABIT_ID
 import com.dicoding.habitapp.utils.HabitSortType
@@ -87,7 +88,13 @@ class HabitListActivity : AppCompatActivity() {
                 true
             }
 
-            R.id.settings -> {
+            R.id.action_random -> {
+                val randomIntent = Intent(this, RandomHabitActivity::class.java)
+                startActivity(randomIntent)
+                true
+            }
+
+            R.id.action_settings -> {
                 val settingIntent = Intent(this, SettingsActivity::class.java)
                 startActivity(settingIntent)
                 true
