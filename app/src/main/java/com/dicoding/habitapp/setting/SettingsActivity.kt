@@ -1,14 +1,19 @@
 package com.dicoding.habitapp.setting
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
+import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import com.dicoding.habitapp.R
+import com.dicoding.habitapp.utils.DarkMode
+import java.util.Locale
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -38,8 +43,15 @@ class SettingsActivity : AppCompatActivity() {
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        if (Build.VERSION.SDK_INT > 32) {
-            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            if (Build.VERSION.SDK_INT > 32) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
         }
     }
 
@@ -48,6 +60,12 @@ class SettingsActivity : AppCompatActivity() {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
             //TODO 11 : Update theme based on value in ListPreference
+            val themePreferences = findPreference<ListPreference>(getString(R.string.pref_key_dark))
+            themePreferences?.setOnPreferenceChangeListener { _, newValue ->
+                val theme = DarkMode.valueOf(newValue.toString().uppercase(Locale.US))
+                updateTheme(theme.value)
+                true
+            }
         }
 
         private fun updateTheme(mode: Int): Boolean {
