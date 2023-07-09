@@ -52,7 +52,7 @@ class HabitRepository(private val habitDao: HabitDao, private val executor: Exec
         return habitDao.getHabitById(habitId)
     }
 
-    fun insertHabit(newHabit: Habit) {
+    suspend fun insertHabit(newHabit: Habit) {
         habitDao.insertHabit(newHabit)
     }
 
