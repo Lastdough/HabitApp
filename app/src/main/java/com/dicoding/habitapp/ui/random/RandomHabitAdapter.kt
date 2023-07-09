@@ -16,9 +16,11 @@ class RandomHabitAdapter(
 
     private val habitMap = LinkedHashMap<PageType, Habit>()
 
-    fun submitData(key: PageType, habit: Habit) {
-        habitMap[key] = habit
-        notifyDataSetChanged()
+    fun submitData(key: PageType, habit: Habit?) {
+        if (habit != null){
+            habitMap[key] = habit
+            notifyDataSetChanged()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
